@@ -25,7 +25,7 @@
   - [📊 Resultados sobre el CSV de prueba](#-resultados-sobre-el-csv-de-prueba)
     - [Desglose de errores detectados](#desglose-de-errores-detectados)
   - [🧩 Modelo de datos](#-modelo-de-datos)
-  - [� Transaccionalidad](#-transaccionalidad)
+  - [🔒 Transaccionalidad](#-transaccionalidad)
   - [📤 Salidas generadas](#-salidas-generadas)
   - [🚀 Visión a futuro — Arquitectura objetivo](#-visión-a-futuro--arquitectura-objetivo)
     - [Diagrama conceptual](#diagrama-conceptual)
@@ -339,11 +339,3 @@ project-root/
 | Transacciones atómicas | Ningún lote queda parcialmente insertado ante fallos |
 
 ---
-
-<div align="center">
-
-Desarrollado como parte de la prueba técnica para **Desarrollador Fullstack** — [gigha.com.co](https://gigha.com.co)
-
-</div>
-#   p o c - n o m i n a - s q l  
- 
