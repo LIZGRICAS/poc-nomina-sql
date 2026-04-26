@@ -1,0 +1,84 @@
+# ─────────────────────────────────────────────
+# Entorno y credenciales — NUNCA subir al repo
+# ─────────────────────────────────────────────
+.env
+*.env.local
+*.env.production
+
+# ─────────────────────────────────────────────
+# Logs generados por el ETL
+# ─────────────────────────────────────────────
+logs/
+*.log
+*.csv.bak
+
+# ─────────────────────────────────────────────
+# Python
+# ─────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+eggs/
+parts/
+var/
+sdist/
+develop-eggs/
+.installed.cfg
+lib/
+lib64/
+
+# Entornos virtuales
+.venv/
+venv/
+ENV/
+env/
+.env/
+
+# pytest / coverage
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+nosetests.xml
+coverage.xml
+*.cover
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# ─────────────────────────────────────────────
+# Docker
+# ─────────────────────────────────────────────
+# Volúmenes locales de SQL Server (generados por docker compose)
+sqlserver_data/
+
+# ─────────────────────────────────────────────
+# IDEs y editores
+# ─────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# ─────────────────────────────────────────────
+# Jupyter (si se usa para exploración)
+# ─────────────────────────────────────────────
+.ipynb_checkpoints/
+*.ipynb
+
+# ─────────────────────────────────────────────
+# Archivos de sistema operativo
+# ─────────────────────────────────────────────
+Desktop.ini
+ehthumbs.db

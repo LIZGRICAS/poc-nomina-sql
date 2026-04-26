@@ -1,0 +1,180 @@
+[
+    {
+        "label": "pandas",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "pandas",
+        "description": "pandas",
+        "detail": "pandas",
+        "documentation": {}
+    },
+    {
+        "label": "pyodbc",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "pyodbc",
+        "description": "pyodbc",
+        "detail": "pyodbc",
+        "documentation": {}
+    },
+    {
+        "label": "logging",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "logging",
+        "description": "logging",
+        "detail": "logging",
+        "documentation": {}
+    },
+    {
+        "label": "os",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "os",
+        "description": "os",
+        "detail": "os",
+        "documentation": {}
+    },
+    {
+        "label": "sys",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "sys",
+        "description": "sys",
+        "detail": "sys",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "Path",
+        "importPath": "pathlib",
+        "description": "pathlib",
+        "isExtraImport": true,
+        "detail": "pathlib",
+        "documentation": {}
+    },
+    {
+        "label": "get_connection",
+        "kind": 2,
+        "importPath": "process_novedades",
+        "description": "process_novedades",
+        "peekOfCode": "def get_connection():\n    \"\"\"Devuelve conexión a SQL Server con reintentos. Credenciales desde variables de entorno.\"\"\"\n    import time\n    server   = os.environ.get(\"DB_SERVER\",   \"localhost\")\n    database = os.environ.get(\"DB_NAME\",     \"PruebaNomina\")\n    user     = os.environ.get(\"DB_USER\",     \"sa\")\n    password = os.environ.get(\"DB_PASSWORD\", \"\")\n    conn_str = (\n        f\"DRIVER={{ODBC Driver 17 for SQL Server}};\"\n        f\"SERVER={server};\"",
+        "detail": "process_novedades",
+        "documentation": {}
+    },
+    {
+        "label": "read_csv",
+        "kind": 2,
+        "importPath": "process_novedades",
+        "description": "process_novedades",
+        "peekOfCode": "def read_csv(filepath: str) -> pd.DataFrame:\n    log.info(f\"Leyendo archivo: {filepath}\")\n    df = pd.read_csv(filepath, dtype=str)\n    df.columns = df.columns.str.strip().str.lower()\n    log.info(f\"Total de registros en CSV: {len(df)}\")\n    return df\n# ─────────────────────────────────────────────\n# VALIDACIÓN / REGLAS DE NEGOCIO\n# ─────────────────────────────────────────────\ndef validate(df: pd.DataFrame):",
+        "detail": "process_novedades",
+        "documentation": {}
+    },
+    {
+        "label": "validate",
+        "kind": 2,
+        "importPath": "process_novedades",
+        "description": "process_novedades",
+        "peekOfCode": "def validate(df: pd.DataFrame):\n    errores = []\n    for idx, row in df.iterrows():\n        motivos = []\n        # Regla 1: documento no puede estar vacío\n        doc = str(row.get(\"documento\", \"\")).strip()\n        if not doc or doc.lower() in (\"nan\", \"none\", \"\"):\n            motivos.append(\"documento_empleado_vacio\")\n        else:\n            if doc.endswith(\".0\"):",
+        "detail": "process_novedades",
+        "documentation": {}
+    },
+    {
+        "label": "insert_validos",
+        "kind": 2,
+        "importPath": "process_novedades",
+        "description": "process_novedades",
+        "peekOfCode": "def insert_validos(df_validos, conn):\n    if df_validos.empty:\n        log.warning(\"Sin registros validos para insertar.\")\n        return 0\n    cursor = conn.cursor()\n    inserted = 0\n    try:\n        for _, row in df_validos.iterrows():\n            cursor.execute(\n                INSERT_VALIDO,",
+        "detail": "process_novedades",
+        "documentation": {}
+    },
+    {
+        "label": "insert_errores_bd",
+        "kind": 2,
+        "importPath": "process_novedades",
+        "description": "process_novedades",
+        "peekOfCode": "def insert_errores_bd(df_errores, conn):\n    if df_errores.empty:\n        return\n    cursor = conn.cursor()\n    try:\n        for _, row in df_errores.iterrows():\n            cursor.execute(\n                INSERT_ERROR,\n                str(row.get(\"documento\", \"\")).strip(),\n                str(row.get(\"tipo_he\", \"\")).strip(),",
+        "detail": "process_novedades",
+        "documentation": {}
+    },
+    {
+        "label": "save_error_csv",
+        "kind": 2,
+        "importPath": "process_novedades",
+        "description": "process_novedades",
+        "peekOfCode": "def save_error_csv(df_errores):\n    if df_errores.empty:\n        log.info(\"Sin errores que registrar en CSV.\")\n        return\n    df_errores.to_csv(LOG_FILE, index=False, encoding=\"utf-8-sig\")\n    log.info(f\"Log de errores CSV guardado en: {LOG_FILE}\")\n# ─────────────────────────────────────────────\n# PUNTO DE ENTRADA\n# ─────────────────────────────────────────────\ndef main(csv_path: str):",
+        "detail": "process_novedades",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "process_novedades",
+        "description": "process_novedades",
+        "peekOfCode": "def main(csv_path: str):\n    log.info(\"=\" * 60)\n    log.info(\"Inicio del proceso de novedades de horas extras\")\n    log.info(\"=\" * 60)\n    df_raw = read_csv(csv_path)\n    df_validos, df_errores = validate(df_raw)\n    save_error_csv(df_errores)\n    conn = get_connection()\n    try:\n        insert_validos(df_validos, conn)",
+        "detail": "process_novedades",
+        "documentation": {}
+    },
+    {
+        "label": "TIPOS_VALIDOS",
+        "kind": 5,
+        "importPath": "process_novedades",
+        "description": "process_novedades",
+        "peekOfCode": "TIPOS_VALIDOS = {\"HE_DIURNA\", \"HE_NOCTURNA\", \"HE_DOMINICAL\", \"HE_FESTIVA\"}\nLOG_DIR = Path(\"logs\")\nLOG_DIR.mkdir(exist_ok=True)\nTIMESTAMP = datetime.now().strftime(\"%Y%m%d_%H%M%S\")\nLOG_FILE  = LOG_DIR / f\"errores_{TIMESTAMP}.csv\"\nAPP_LOG   = LOG_DIR / f\"ejecucion_{TIMESTAMP}.log\"\n# ─────────────────────────────────────────────\n# LOGGING DE APLICACIÓN\n# ─────────────────────────────────────────────\nlogging.basicConfig(",
+        "detail": "process_novedades",
+        "documentation": {}
+    },
+    {
+        "label": "LOG_DIR",
+        "kind": 5,
+        "importPath": "process_novedades",
+        "description": "process_novedades",
+        "peekOfCode": "LOG_DIR = Path(\"logs\")\nLOG_DIR.mkdir(exist_ok=True)\nTIMESTAMP = datetime.now().strftime(\"%Y%m%d_%H%M%S\")\nLOG_FILE  = LOG_DIR / f\"errores_{TIMESTAMP}.csv\"\nAPP_LOG   = LOG_DIR / f\"ejecucion_{TIMESTAMP}.log\"\n# ─────────────────────────────────────────────\n# LOGGING DE APLICACIÓN\n# ─────────────────────────────────────────────\nlogging.basicConfig(\n    level=logging.INFO,",
+        "detail": "process_novedades",
+        "documentation": {}
+    },
+    {
+        "label": "TIMESTAMP",
+        "kind": 5,
+        "importPath": "process_novedades",
+        "description": "process_novedades",
+        "peekOfCode": "TIMESTAMP = datetime.now().strftime(\"%Y%m%d_%H%M%S\")\nLOG_FILE  = LOG_DIR / f\"errores_{TIMESTAMP}.csv\"\nAPP_LOG   = LOG_DIR / f\"ejecucion_{TIMESTAMP}.log\"\n# ─────────────────────────────────────────────\n# LOGGING DE APLICACIÓN\n# ─────────────────────────────────────────────\nlogging.basicConfig(\n    level=logging.INFO,\n    format=\"%(asctime)s [%(levelname)s] %(message)s\",\n    handlers=[",
+        "detail": "process_novedades",
+        "documentation": {}
+    },
+    {
+        "label": "log",
+        "kind": 5,
+        "importPath": "process_novedades",
+        "description": "process_novedades",
+        "peekOfCode": "log = logging.getLogger(__name__)\n# ─────────────────────────────────────────────\n# CONEXIÓN A BASE DE DATOS\n# ─────────────────────────────────────────────\ndef get_connection():\n    \"\"\"Devuelve conexión a SQL Server con reintentos. Credenciales desde variables de entorno.\"\"\"\n    import time\n    server   = os.environ.get(\"DB_SERVER\",   \"localhost\")\n    database = os.environ.get(\"DB_NAME\",     \"PruebaNomina\")\n    user     = os.environ.get(\"DB_USER\",     \"sa\")",
+        "detail": "process_novedades",
+        "documentation": {}
+    },
+    {
+        "label": "INSERT_VALIDO",
+        "kind": 5,
+        "importPath": "process_novedades",
+        "description": "process_novedades",
+        "peekOfCode": "INSERT_VALIDO = \"\"\"\nINSERT INTO Novedades_HorasExtras\n    (DocumentoEmpleado, TipoHoraExtra, CantidadHoras, FechaReporte)\nVALUES (?, ?, ?, ?)\n\"\"\"\ndef insert_validos(df_validos, conn):\n    if df_validos.empty:\n        log.warning(\"Sin registros validos para insertar.\")\n        return 0\n    cursor = conn.cursor()",
+        "detail": "process_novedades",
+        "documentation": {}
+    },
+    {
+        "label": "INSERT_ERROR",
+        "kind": 5,
+        "importPath": "process_novedades",
+        "description": "process_novedades",
+        "peekOfCode": "INSERT_ERROR = \"\"\"\nINSERT INTO Novedades_HorasExtras_Errores\n    (DocumentoEmpleado, TipoHoraExtra, CantidadHoras, FechaReporte, MotivoError)\nVALUES (?, ?, ?, ?, ?)\n\"\"\"\ndef insert_errores_bd(df_errores, conn):\n    if df_errores.empty:\n        return\n    cursor = conn.cursor()\n    try:",
+        "detail": "process_novedades",
+        "documentation": {}
+    }
+]

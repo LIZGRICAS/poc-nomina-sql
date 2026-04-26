@@ -1,0 +1,8 @@
+2026-04-26 03:14:46,611 [INFO] ============================================================
+2026-04-26 03:14:46,614 [INFO] Inicio del proceso de novedades de horas extras
+2026-04-26 03:14:46,615 [INFO] ============================================================
+2026-04-26 03:14:46,616 [INFO] Leyendo archivo: novedades_extra.csv
+2026-04-26 03:14:46,661 [INFO] Total de registros en CSV: 60
+2026-04-26 03:14:46,746 [INFO] Registros validos  : 42
+2026-04-26 03:14:46,749 [INFO] Registros con error: 18
+2026-04-26 03:14:46,792 [INFO] Log de errores CSV guardado en: logs/errores_20260426_031446.csv

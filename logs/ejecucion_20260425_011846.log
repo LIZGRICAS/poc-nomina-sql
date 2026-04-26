@@ -1,0 +1,15 @@
+2026-04-25 01:18:46,438 [INFO] ============================================================
+2026-04-25 01:18:46,439 [INFO] Inicio del proceso de novedades de horas extras
+2026-04-25 01:18:46,440 [INFO] ============================================================
+2026-04-25 01:18:46,442 [INFO] Leyendo archivo: novedades_extra.csv
+2026-04-25 01:18:46,455 [INFO] Total de registros en CSV: 60
+2026-04-25 01:18:46,477 [INFO] Registros validos  : 42
+2026-04-25 01:18:46,478 [INFO] Registros con error: 18
+2026-04-25 01:18:46,494 [INFO] Log de errores CSV guardado en: logs/errores_20260425_011846.csv
+2026-04-25 01:18:46,700 [INFO] Transaccion exitosa: 42 registros insertados.
+2026-04-25 01:18:46,750 [INFO] 18 errores registrados en tabla BD.
+2026-04-25 01:18:46,751 [INFO] ============================================================
+2026-04-25 01:18:46,752 [INFO] Proceso finalizado.
+2026-04-25 01:18:46,753 [INFO]   Insertados exitosamente : 42
+2026-04-25 01:18:46,754 [INFO]   Rechazados con error    : 18
+2026-04-25 01:18:46,755 [INFO] ============================================================

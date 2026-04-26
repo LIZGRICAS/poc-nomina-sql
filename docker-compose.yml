@@ -1,0 +1,55 @@
+version: "3.9"
+
+services:
+
+  # ── 1. SQL Server ─────────────────────────────────────────────────────────
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: poc_sqlserver
+    env_file: .env                      # lee SA_PASSWORD y ACCEPT_EULA desde .env
+    environment:
+      MSSQL_PID: "Developer"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+      - ./init:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL",
+        "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P \"$SA_PASSWORD\" -Q 'SELECT 1' -No"]
+      interval: 10s
+      timeout: 10s
+      retries: 15
+      start_period: 60s
+
+  # ── 2. Inicializador de esquema ───────────────────────────────────────────
+  db-init:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: poc_db_init
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+    env_file: .env
+    volumes:
+      - ./init:/scripts
+    entrypoint: ["/bin/sh", "-c",
+      "/opt/mssql-tools18/bin/sqlcmd -S sqlserver -U sa -P \"$SA_PASSWORD\" -No -i /scripts/01_create_db.sql &&
+       /opt/mssql-tools18/bin/sqlcmd -S sqlserver -U sa -P \"$SA_PASSWORD\" -No -i /scripts/02_create_tables.sql &&
+       echo 'Base de datos lista.'"
+    ]
+    restart: "no"
+
+  # ── 3. ETL Python ─────────────────────────────────────────────────────────
+  etl:
+    build: .
+    container_name: poc_etl
+    depends_on:
+      db-init:
+        condition: service_completed_successfully
+    env_file: .env                      # DB_SERVER, DB_NAME, DB_USER, DB_PASSWORD
+    volumes:
+      - ./logs:/app/logs
+    restart: "no"
+
+volumes:
+  sqlserver_data:

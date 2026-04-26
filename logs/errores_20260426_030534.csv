@@ -1,0 +1,19 @@
+﻿documento,tipo_he,cantidad_horas,fecha_reporte,motivo_error
+,HE_NOCTURNA,5.0,2026-03-22,documento_empleado_vacio
+100555666,HE_INVENTADA,4.0,2026-03-23,tipo_hora_extra_invalido (HE_INVENTADA)
+100777888,HE_DOMINICAL,-2.5,2026-03-23,cantidad_horas_no_positiva (-2.5)
+100888999,HE_FESTIVA,0,2026-03-24,cantidad_horas_no_positiva (0)
+100222111,HE_DIURNA,cinco,2026-03-24,cantidad_horas_no_numerica (cinco)
+101778899,HE_DOMINICAL,,2026-03-27,cantidad_horas_vacia
+101990011,,4.5,2026-03-28,tipo_hora_extra_vacio
+103778899,HE_DIURNA,-1,2026-03-31,cantidad_horas_no_positiva (-1)
+,HE_DIURNA,3.0,2026-04-02,documento_empleado_vacio
+105112233,HE_NOCTURNA,tres,2026-04-02,cantidad_horas_no_numerica (tres)
+106556677,HE_OTRACOSA,6.0,2026-04-05,tipo_hora_extra_invalido (HE_OTRACOSA)
+107990011,HE_FESTIVA,-4.0,2026-04-07,cantidad_horas_no_positiva (-4.0)
+108223344,HE_DIURNA,0.0,2026-04-08,cantidad_horas_no_positiva (0.0)
+,HE_DIURNA,2.0,2026-04-12,documento_empleado_vacio
+111112233,HE_DOMINICAL,,2026-04-13,cantidad_horas_vacia
+112223344,HE_ERROR,4.0,2026-04-15,tipo_hora_extra_invalido (HE_ERROR)
+113112233,HE_NOCTURNA,-0.5,2026-04-16,cantidad_horas_no_positiva (-0.5)
+113778899,HE_FESTIVA,0,2026-04-17,cantidad_horas_no_positiva (0)
